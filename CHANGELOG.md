@@ -7,11 +7,11 @@ All notable changes to this project will be documented in this file.
 
 ### ⚠ BREAKING CHANGES
 
-* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.7 (#103)
+* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.4 (#103)
 
 ### Features
 
-* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.7 ([#103](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/103)) ([495d7a5](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/495d7a5e6ee9a45ae985a4160d9242c8b8727d69))
+* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.4 ([#103](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/103)) ([495d7a5](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/495d7a5e6ee9a45ae985a4160d9242c8b8727d69))
 
 ## [4.4.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.3.0...v4.4.0) (2025-05-17)
 
