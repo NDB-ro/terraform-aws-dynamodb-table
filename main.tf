@@ -1,3 +1,7 @@
+locals {
+  dynamodb_table_arn = try(aws_dynamodb_table.this[0].arn, aws_dynamodb_table.autoscaled[0].arn, aws_dynamodb_table.autoscaled_gsi_ignore[0].arn, "")
+}
+
 resource "aws_dynamodb_table" "this" {
   count = var.create_table && !var.autoscaling_enabled ? 1 : 0
 
@@ -11,6 +15,7 @@ resource "aws_dynamodb_table" "this" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  region                      = var.region
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -22,7 +27,8 @@ resource "aws_dynamodb_table" "this" {
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_period_in_days
   }
 
   dynamic "attribute" {
@@ -56,6 +62,15 @@ resource "aws_dynamodb_table" "this" {
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+
+      dynamic "on_demand_throughput" {
+        for_each = try([global_secondary_index.value.on_demand_throughput], [])
+
+        content {
+          max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+          max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+        }
+      }
     }
   }
 
@@ -67,6 +82,7 @@ resource "aws_dynamodb_table" "this" {
       kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
       propagate_tags         = lookup(replica.value, "propagate_tags", null)
       point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
+      consistency_mode       = try(replica.value.consistency_mode, null)
     }
   }
 
@@ -103,6 +119,15 @@ resource "aws_dynamodb_table" "this" {
         bucket_owner = try(import_table.value.bucket_owner, null)
         key_prefix   = try(import_table.value.key_prefix, null)
       }
+    }
+  }
+
+  dynamic "on_demand_throughput" {
+    for_each = length(var.on_demand_throughput) > 0 ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+      max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
     }
   }
 
@@ -133,6 +158,7 @@ resource "aws_dynamodb_table" "autoscaled" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  region                      = var.region
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -144,7 +170,8 @@ resource "aws_dynamodb_table" "autoscaled" {
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_period_in_days
   }
 
   dynamic "attribute" {
@@ -178,6 +205,15 @@ resource "aws_dynamodb_table" "autoscaled" {
       read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
       write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
       non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+
+      dynamic "on_demand_throughput" {
+        for_each = try([global_secondary_index.value.on_demand_throughput], [])
+
+        content {
+          max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+          max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
+        }
+      }
     }
   }
 
@@ -189,6 +225,7 @@ resource "aws_dynamodb_table" "autoscaled" {
       kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
       propagate_tags         = lookup(replica.value, "propagate_tags", null)
       point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
+      consistency_mode       = try(replica.value.consistency_mode, null)
     }
   }
 
@@ -225,6 +262,15 @@ resource "aws_dynamodb_table" "autoscaled" {
         bucket_owner = try(import_table.value.bucket_owner, null)
         key_prefix   = try(import_table.value.key_prefix, null)
       }
+    }
+  }
+
+  dynamic "on_demand_throughput" {
+    for_each = length(var.on_demand_throughput) > 0 ? [var.on_demand_throughput] : []
+
+    content {
+      max_read_request_units  = try(on_demand_throughput.value.max_read_request_units, null)
+      max_write_request_units = try(on_demand_throughput.value.max_write_request_units, null)
     }
   }
 
@@ -259,6 +305,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   stream_view_type            = var.stream_view_type
   table_class                 = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
+  region                      = var.region
   restore_date_time           = var.restore_date_time
   restore_source_name         = var.restore_source_name
   restore_source_table_arn    = var.restore_source_table_arn
@@ -270,7 +317,8 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled                 = var.point_in_time_recovery_enabled
+    recovery_period_in_days = var.point_in_time_recovery_period_in_days
   }
 
   dynamic "attribute" {
@@ -315,6 +363,7 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
       kms_key_arn            = lookup(replica.value, "kms_key_arn", null)
       propagate_tags         = lookup(replica.value, "propagate_tags", null)
       point_in_time_recovery = lookup(replica.value, "point_in_time_recovery", null)
+      consistency_mode       = try(replica.value.consistency_mode, null)
     }
   }
 
@@ -339,4 +388,12 @@ resource "aws_dynamodb_table" "autoscaled_gsi_ignore" {
   lifecycle {
     ignore_changes = [global_secondary_index, read_capacity, write_capacity]
   }
+}
+
+resource "aws_dynamodb_resource_policy" "this" {
+  count = var.create_table && var.resource_policy != null ? 1 : 0
+
+  region       = var.region
+  resource_arn = local.dynamodb_table_arn
+  policy       = replace(var.resource_policy, "__DYNAMODB_TABLE_ARN__", local.dynamodb_table_arn)
 }

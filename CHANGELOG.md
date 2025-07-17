@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.4.0...v5.0.0) (2025-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.4 (#103)
+
+### Features
+
+* Support `replica.consistency_mode`, AWS Provider MSV 6.3, Terraform MSV 1.5.4 ([#103](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/103)) ([495d7a5](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/495d7a5e6ee9a45ae985a4160d9242c8b8727d69))
+
+## [4.4.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.3.0...v4.4.0) (2025-05-17)
+
+
+### Features
+
+* PITR Recovery Period in Days ([#99](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/99)) ([ee48ced](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/ee48ced57afbac9c7a50ecf30df81a09fadd12a9))
+
+## [4.3.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.2.0...v4.3.0) (2025-03-19)
+
+
+### Features
+
+* Support `aws_dynamodb_resource_policy` (closes [#95](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/95)) ([#96](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/96)) ([eee22aa](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/eee22aaa46d5975dde066c396cc848eb3b79d291))
+
+## [4.1.1](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.1.0...v4.1.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* Update CI workflow versions to latest ([#88](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/issues/88)) ([f63d068](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/commit/f63d0685419e2f973278e434f409c5440ed0e2a9))
+
 ## [4.1.0](https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table/compare/v4.0.1...v4.1.0) (2024-08-25)
 
 

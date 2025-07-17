@@ -14,13 +14,13 @@ $ terraform apply
 
 Note that this example may create resources which can cost money (AWS Elastic IP, for example). Run `terraform destroy` when you don't need these resources.
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.64 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.4 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.3 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 2.0 |
 
 ## Providers
@@ -61,4 +61,4 @@ No inputs.
 | <a name="output_import_json_table_id"></a> [import\_json\_table\_id](#output\_import\_json\_table\_id) | ID of the DynamoDB table |
 | <a name="output_import_json_table_stream_arn"></a> [import\_json\_table\_stream\_arn](#output\_import\_json\_table\_stream\_arn) | The ARN of the Table Stream. Only available when var.stream\_enabled is true |
 | <a name="output_import_json_table_stream_label"></a> [import\_json\_table\_stream\_label](#output\_import\_json\_table\_stream\_label) | A timestamp, in ISO 8601 format of the Table Stream. Only available when var.stream\_enabled is true |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
